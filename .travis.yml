@@ -1,7 +1,9 @@
+dist: bionic
+
 language: cpp
 compiler:
-  - clang-10
-  - g++-9
+  - clang-7
+  - g++-7.4.0
 
 addons:
   apt:
