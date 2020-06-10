@@ -1,4 +1,21 @@
+sudo: false
+
 language: cpp
 compile:
   - clang
   - gcc
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+
+before_install:
+  - pip install --user ninja
+
+script:
+  - mkdir build
+  - cd build
+  - cmake -G "Ninja" ..
+  - ninja
+  - ctest
