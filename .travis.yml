@@ -1,4 +1,18 @@
+dist: bionic
+
 language: cpp
-compile:
-  - clang
-  - gcc
+compiler:
+  - clang-7
+  - g++-7.4.0
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cmake --build .
+  - ctest --verbose
