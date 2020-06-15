@@ -6,6 +6,14 @@ project(${this})
 
 set(CMAKE_CXX_STANDARD 17)
 
+if(CMAKE_COMPILER_IS_GNUCC)
+	option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
+endif()
+
+if(ENABLE_COVERAGE)
+	add_compile_options(-lgcov --coverage -O0)
+endif()
+
 enable_testing()
 
 set(Header

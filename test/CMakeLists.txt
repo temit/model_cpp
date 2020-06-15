@@ -12,7 +12,10 @@ add_executable(${this}
 target_link_libraries(${this}
 	PUBLIC
 		gtest_main
-		jsoncpp)
+		jsoncpp
+		--coverage
+		-O0)
+
 
 add_test(
 	NAME ${this}

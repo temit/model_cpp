@@ -13,6 +13,7 @@ addons:
 script:
   - mkdir build
   - cd build
-  - cmake ..
-  - cmake --build .
-  - ctest --verbose
+  - cmake .. -D ENABLE_COVERAGE:BOOL=TRUE
+  - cmake --build . -- -j2
+  - ctest -j2 --verbose
+  - bash <(curl -s https://codecov.io/bash)
