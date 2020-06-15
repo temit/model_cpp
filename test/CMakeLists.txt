@@ -16,9 +16,7 @@ target_link_libraries(${this}
 		gcov)
 target_compile_options(${this}
 	PUBLIC 
-		-fprofile-arcs
-		-ftest-coverage
-		-fPIC
+		--coverage
 		-O0)
 
 add_test(
