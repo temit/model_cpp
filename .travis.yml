@@ -2,7 +2,6 @@ dist: bionic
 
 language: cpp
 compiler:
-  - clang-7
   - g++-7.4.0
 
 addons:
