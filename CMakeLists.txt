@@ -8,5 +8,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 enable_testing()
 
+set(Header
+    json/json.h
+    json/json-forwards.h)
+
+set(Source
+    jsoncpp.cpp)
+
+add_library(jsoncpp
+        STATIC
+            ${Source}
+            ${Header})
+
 add_subdirectory(googletest)
 add_subdirectory(test)

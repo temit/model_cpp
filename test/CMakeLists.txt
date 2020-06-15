@@ -4,13 +4,15 @@ set(this model_test)
 
 set(Sources
 	test_data_type.cpp
-	test_collection_type.cpp)
+	test_collection_type.cpp
+	test_converter.cpp)
 
 add_executable(${this}
 	${Sources})
 target_link_libraries(${this}
 	PUBLIC
-		gtest_main)
+		gtest_main
+		jsoncpp)
 
 add_test(
 	NAME ${this}

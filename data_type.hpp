@@ -13,7 +13,7 @@ namespace atom
 													std::is_constructible_v<std::string_view, std::remove_cv_t<std::decay_t<Key>>>
 												 && std::is_constructible_v<T, std::remove_cv_t<std::decay_t<Value>>>
 												>>
-		constexpr data_type(Key&& key, Value&& value)
+		constexpr data_type(Key&& key, Value&& value = T())
 		 : _key { std::forward<Key>(key) },
 		   _value { std::forward<Value>(value) }
 		{ }
