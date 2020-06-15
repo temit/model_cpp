@@ -13,9 +13,13 @@ target_link_libraries(${this}
 	PUBLIC
 		gtest_main
 		jsoncpp
-		--coverage
+		gcov)
+target_compile_options(${this}
+	PUBLIC 
+		-fprofile-arcs
+		-ftest-coverage
+		-fPIC
 		-O0)
-
 
 add_test(
 	NAME ${this}
