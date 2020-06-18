@@ -7,49 +7,56 @@
 
 namespace atom
 {
+
 	template <typename T, typename = std::enable_if_t<
 							std::is_pod_v<T>
 						>>
 	class converter
 	{
 	public:
-		template <typename type, typename = std::enable_if_t<
-										std::is_same_v<collection_type<T>, std::remove_cv_t<std::decay_t<type>>>
-									 || std::is_same_v<data_type<T>, std::remove_cv_t<std::decay_t<type>>> >,
+		template <typename value_type, typename = std::enable_if_t<
+										std::is_constructible_v<collection, std::remove_cv_t<std::decay_t<value_type>>>
+									 || std::is_constructible_v<data, std::remove_cv_t<std::decay_t<value_type>>>
+									>,
 									typename = std::enable_if_t<
-										std::is_same_v<collection_type<T>, std::remove_cv_t<std::decay_t<type>>>
-									 && !std::is_same_v<data_type<T>, std::remove_cv_t<std::decay_t<type>>>
-								>>
-		void to_json(Json::Value& js, type&& values)
+										std::is_constructible_v<collection, std::remove_cv_t<std::decay_t<value_type>>>
+									>>
+		void to_json(Json::Value& js, value_type&& values)
 		{
 			js[values.key().data()] = Json::Value(Json::arrayValue);
 			for(auto&& value : values.values() )
 				js[values.key().data()].append(value);
 		}
-		template <typename type, typename = std::enable_if_t<
-									std::is_same_v<data_type<T>, std::remove_cv_t<std::decay_t<type>>>
-								>>
-		void to_json(Json::Value& js, type&& value)
+
+		template <typename value_type, typename = std::enable_if_t<
+										std::is_constructible_v<data, std::remove_cv_t<std::decay_t<value_type>>>
+									>>
+		void to_json(Json::Value& js, value_type&& value)
 		{
 			js[value.key().data()] = value.value();
 		}
 
-		template <typename type, typename t, typename = std::enable_if_t<
-								std::is_same_v<Json::Value, std::remove_cv_t<std::decay_t<type>>>
-							>>
-		void from_json(type&& js, collection_type<t>& collection)
+		template <typename json_type, typename value_type, typename = std::enable_if_t<
+															std::is_constructible_v<Json::Value, std::remove_cv_t<std::decay_t<json_type>>>
+														 && std::is_lvalue_reference_v<value_type>
+														 && (std::is_constructible_v<collection, std::remove_cv_t<std::decay_t<value_type>>>
+														  || std::is_constructible_v<data, std::remove_cv_t<std::decay_t<value_type>>>)
+														>, typename = std::enable_if_t<
+															std::is_constructible_v<collection, std::remove_cv_t<std::decay_t<value_type>>>
+														>>
+		void from_json(json_type&& js, value_type&& values)
 		{
-			if(js.isMember(collection.key().data()))
-				for (Json::ArrayIndex i=0; i < js[collection.key().data()].size(); i++)
-					collection.values().emplace_back(js[collection.key().data()][i].template as<t>());
+			if(js.isMember(values.key().data()))
+				for (Json::ArrayIndex i=0; i < js[values.key().data()].size(); i++)
+					values.values().emplace_back(js[values.key().data()][i].template as<T>());
 		}
-		template <typename type, typename t, typename = std::enable_if_t<
-								std::is_same_v<Json::Value, std::remove_cv_t<std::decay_t<type>>>
-							>>
-		void from_json(type&& js, data_type<t>& data)
+		template <typename json_type, typename value_type, typename = std::enable_if_t<
+															std::is_constructible_v<data, std::remove_cv_t<std::decay_t<value_type>>>
+														>>
+		void from_json(json_type&& js, value_type&& value)
 		{
-			if(js.isMember(data.key().data()))
-				data.value() = js[data.key().data()].template as<t>();
+			if (js.isMember(value.key().data()))
+				value.value() = js[value.key().data()].template as<T>();
 		}
 	};
 }

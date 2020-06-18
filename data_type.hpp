@@ -5,38 +5,34 @@
 
 namespace atom
 {
-	template <typename T>
-	class data_type
+	class data {};
+
+	template <const char* key_value, typename type>
+	class data_type : public data
 	{
 	public:
-		template <typename Key, typename Value, typename = std::enable_if_t<
-													std::is_constructible_v<std::string_view, std::remove_cv_t<std::decay_t<Key>>>
-												 && std::is_constructible_v<T, std::remove_cv_t<std::decay_t<Value>>>
-												>>
-		constexpr data_type(Key&& key, Value&& value = T())
-		 : _key { std::forward<Key>(key) },
-		   _value { std::forward<Value>(value) }
+		data_type() = default;
+		template <typename value_type, typename = std::enable_if_t<
+		                                std::is_constructible_v<type, std::remove_cv_t<std::decay_t<value_type>>>
+		                              >>
+		data_type(value_type&& value_)
+		 : value_ { std::forward<value_type>(value_) }
 		{ }
 
-		[[nodiscard]] const std::string_view& key() const
+		[[nodiscard]]std::string_view key() const noexcept
 		{
-			return _key;
+		  return key_;
 		}
-		[[nodiscard]] std::string_view& key()
+		[[nodiscard]]type& value() noexcept
 		{
-			return _key;
+		  return value_;
 		}
-
-		[[nodiscard]] const T& value() const
+		[[nodiscard]]const type& value() const noexcept
 		{
-			return _value;
-		}
-		[[nodiscard]] T& value()
-		{
-			return _value;
+		  return value_;
 		}
 	private:
-		std::string_view _key;
-		T _value;
+		const char* key_ { key_value };
+		type value_;
 	};
 }
