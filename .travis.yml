@@ -3,7 +3,6 @@ dist: bionic
 language: cpp
 
 before_install:
-  - sudo add-apt-repository -y install ppa:ubuntu-toolchain-r/test
   - sudo apt-get -q update
   - sudo apt-get -y install build-essential
   - sudo apt-get -y install llvm
