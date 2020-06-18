@@ -20,5 +20,10 @@ add_library(jsoncpp
             ${Source}
             ${Header})
 
-add_subdirectory(googletest)
+include(cmake/googletest.cmake)
+fetch_googletest(
+    ${PROJECT_SOURCE_DIR}/cmake
+    ${PROJECT_BINARY_DIR}/googletest
+    )
+
 add_subdirectory(test)
