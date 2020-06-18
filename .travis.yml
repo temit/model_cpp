@@ -1,21 +1,9 @@
-dist: bionic
-
 language: cpp
+os: osx
 
-before_install:
-  - sudo apt-get -q update
-  - sudo apt-get -y install build-essential
-  - sudo apt-get -y install llvm
-
-compiler:
-  - gcc
-  - clang
-
-addons:
-  apt:
-    update: true
-    sources:
-      - ubuntu-toolchain-r-test
+jobs:
+  include:
+  - osx_image: xcode11
 
 script:
   - mkdir build
