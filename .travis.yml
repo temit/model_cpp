@@ -1,9 +1,15 @@
 language: cpp
-os: osx
+compiler: gcc
+dist: trusty
 
-jobs:
-  include:
-  - osx_image: xcode11
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+
+install: 
+  - sudo apt-get install -qq g++-9
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
+
 
 script:
   - mkdir build
