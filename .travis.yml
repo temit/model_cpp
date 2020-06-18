@@ -9,6 +9,6 @@ script:
   - mkdir build
   - cd build
   - cmake ..
-  - cmake --build . -- verbose
+  - cmake --build . -- VERBOSE=1 
   - ctest --verbose
   - bash <(curl -s https://codecov.io/bash)
