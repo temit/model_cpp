@@ -6,7 +6,6 @@ before_install:
   - sudo apt-get -q update
   - sudo apt-get -y install build-essential
   - sudo apt-get -y install llvm
-  - sudo apt-get -y install clang-9.0
 
 compiler:
   - gcc
