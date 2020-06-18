@@ -1,18 +1,14 @@
-dist: bionic
-
 language: cpp
-compiler:
-  - g++-7.4.0
+os: osx
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
+jobs:
+  include:
+  - osx_image: xcode11
 
 script:
   - mkdir build
   - cd build
   - cmake ..
-  - cmake --build . -- VERBOSE=1 
+  - cmake --build . -- VERBOSE=1
   - ctest --verbose
   - bash <(curl -s https://codecov.io/bash)
