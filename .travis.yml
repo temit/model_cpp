@@ -1,27 +1,39 @@
-language: cpp
-compiler: gcc
 dist: trusty
+language: cpp
 
-before_install:
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
+compiler:
+  - clang
+  - gcc
+
+install: make get-deps
 
 matrix:
   include:
+    # works on Precise and Trusty
     - os: linux
-      language: cpp
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
-            - libtbb-dev
-            - zlib1g-dev
+            - cmake-3.18
       env:
-        - CC=gcc-9
-        - CXX=g++-9
-        - CXXFLAGS="-std=c++17"
+         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-6
+          packages:
+            - clang-6
+            - cmake-3.18
+      env:
+        - MATRIX_EVAL="CC=clang-6 && CXX=clang++-6"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
 
 script:
   - mkdir build
