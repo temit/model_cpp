@@ -6,16 +6,28 @@ before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo apt-get update -qq
 
-install: 
-  - sudo apt-get install -qq g++-9
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
-
+matrix:
+  include:
+    - os: linux
+      language: python
+      python: "3.8"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-9
+            - libtbb-dev
+            - zlib1g-dev
+      env:
+        - CC=gcc-9
+        - CXX=g++-9
+        - CXXFLAGS="-std=c++17"
 
 script:
-  - bash <(curl -s https://codecov.io/bash)
   - mkdir build
   - cd build
   - cmake ..
   - cmake --build . -- VERBOSE=1
   - ctest --verbose
-  
+  - bash <(curl -s https://codecov.io/bash)
