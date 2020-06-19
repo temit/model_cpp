@@ -18,6 +18,7 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
+            - cmake-3.18
       env:
          - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
 
