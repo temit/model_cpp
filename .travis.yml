@@ -6,7 +6,7 @@ compiler:
 
 before_install:
   - sudo apt-get -y update
-install: make get-deps
+  - sudo apt-get -y upgrade
 
 matrix:
   include:
