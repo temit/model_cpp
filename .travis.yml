@@ -6,6 +6,7 @@ compiler:
 
 before_install:
   - sudo apt-get -y update
+  - sudo apt install cmake
   - sudo apt-get -y upgrade
 
 matrix:
@@ -20,13 +21,6 @@ matrix:
             - g++-9
       env:
          - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - cmake-3.11
 
 before_install:
     - eval "${MATRIX_EVAL}"
