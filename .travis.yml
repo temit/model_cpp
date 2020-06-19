@@ -2,9 +2,10 @@ dist: trusty
 language: cpp
 
 compiler:
-  - clang
   - gcc
 
+before_install:
+  - sudo apt-get -y update
 install: make get-deps
 
 matrix:
@@ -17,20 +18,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-9
-            - cmake-3.18
       env:
          - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-6
-          packages:
-            - clang-6
-            - cmake-3.18
-      env:
-        - MATRIX_EVAL="CC=clang-6 && CXX=clang++-6"
 
 before_install:
     - eval "${MATRIX_EVAL}"
